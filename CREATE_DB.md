@@ -16,7 +16,7 @@ isbn,title,author,year,publisher,img_m
 ```
 Then save a new CSV file with only the first 20 entries (plus header). Call it Books_sample.csv.
 
-🏗️ Step 3: Create the Table in pgAdmin
+## 🎨 Step 3: Create the Table in pgAdmin
 Open pgAdmin and connect to your server.
 
 Open the Query Tool and run this SQL to create the books table:
