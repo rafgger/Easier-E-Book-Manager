@@ -29,6 +29,12 @@ pip install -r requirements.txt
 uvicorn main:app --reload
    ```
 
+See on:
+
+```
+http://localhost:8000/docs 
+```
+
 ### Frontend
 1. Open `frontend/index.html` in your browser.
 2. The app fetches data from `http://localhost:8000/books`.

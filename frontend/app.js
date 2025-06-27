@@ -5,18 +5,19 @@ const bookDetail = document.getElementById("book-detail");
 const backBtn = document.getElementById("back-btn");
 
 function showOverview() {
-    bookList.classList.remove("hidden");
-    bookDetail.classList.add("hidden");
-    backBtn.classList.add("hidden");
+    if (bookList) bookList.classList.remove("hidden");
+    if (bookDetail) bookDetail.classList.add("hidden");
+    if (backBtn) backBtn.classList.add("hidden");
 }
 
 function showDetail() {
-    bookList.classList.add("hidden");
-    bookDetail.classList.remove("hidden");
-    backBtn.classList.remove("hidden");
+    if (bookList) bookList.classList.add("hidden");
+    if (bookDetail) bookDetail.classList.remove("hidden");
+    if (backBtn) backBtn.classList.remove("hidden");
 }
 
 function renderBooks(books) {
+    if (!bookList) return;
     bookList.innerHTML = books.map(book => `
         <div class="book-card" data-isbn="${book.ISBN}">
             <img class="book-cover" src="${book.cover}" alt="${book.title}">
@@ -28,6 +29,7 @@ function renderBooks(books) {
 }
 
 function renderBookDetail(book) {
+    if (!bookDetail) return;
     bookDetail.innerHTML = `
         <img src="${book.cover}" alt="${book.title}">
         <h2>${book.title}</h2>
@@ -51,17 +53,30 @@ async function fetchBookDetail(isbn) {
     showDetail();
 }
 
-bookList.addEventListener("click", e => {
-    const card = e.target.closest(".book-card");
-    if (card) {
-        fetchBookDetail(card.dataset.isbn);
-    }
-});
+if (bookList) {
+    bookList.addEventListener("click", e => {
+        const card = e.target.closest(".book-card");
+        if (card) {
+            fetchBookDetail(card.dataset.isbn);
+        }
+    });
+}
 
-backBtn.addEventListener("click", () => {
+if (backBtn) {
+    backBtn.addEventListener("click", () => {
+        showOverview();
+    });
+}
+
+// Initial load (only if elements exist)
+if (bookList && bookDetail && backBtn) {
+    fetchBooks();
     showOverview();
-});
+}
 
-// Initial load
-fetchBooks();
-showOverview();
+// For testing purposes
+window.renderBooks = renderBooks;
+window.renderBookDetail = renderBookDetail;
+window.bookDetail = bookDetail;
+window.bookList = bookList;
+window.backBtn = backBtn;
