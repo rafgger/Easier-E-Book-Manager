@@ -7,6 +7,9 @@ h1 { text-align: center; font-weight: 400; }
 .book-cover { width: 100%; height: 280px; object-fit: cover; border-radius: 4px; background: #eee; }
 .book-title { font-size: 1.1rem; margin: .7rem 0 .3rem; font-weight: 500; }
 .book-author, .book-year { color: #666; font-size: .95rem; }
+.book-genre { color: #5a67d8; font-size: .9rem; margin-top: .3rem; font-weight: 500; }
+.book-price { color: #38a169; font-size: 1rem; font-weight: 600; margin-top: .3rem; }
+.book-rating { color: #ed8936; font-size: .9rem; margin-top: .3rem; }
 #book-detail { margin-top: 2rem; }
 #book-detail img { width: 200px; height: 280px; object-fit: cover; border-radius: 4px; }
 #book-detail h2 { margin: 1rem 0 .5rem; }

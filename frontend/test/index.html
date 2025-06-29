@@ -1,20 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Mocha Tests</title>
+    <title>E-Book Manager Frontend Tests</title>
     <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-container { margin-bottom: 20px; }
+        #mocha { margin-bottom: 20px; }
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
+    <h1>E-Book Manager Frontend Tests</h1>
+    <p id="test-status">Loading tests...</p>
     <div id="mocha"></div>
+    <div id="test-container">
+        <div id="book-list" class="grid"></div>
+        <div id="book-detail" class="hidden"></div>
+        <button id="back-btn" class="hidden">Back to list</button>
+    </div>
+
+    <script src="https://unpkg.com/chai/chai.js"></script>
     <script src="https://unpkg.com/mocha/mocha.js"></script>
-    <!-- <script src="https://unpkg.com/chai/chai.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/chai@4.3.4/chai.min.js"></script>
-    <script>mocha.setup('bdd');</script>
     <script src="../app.js"></script>
-    <script src="app.test.js"></script>
+    
     <script>
-      mocha.run();
+        // Debug: Check if libraries loaded
+        console.log('Mocha loaded:', typeof mocha);
+        console.log('Chai loaded:', typeof chai);
+        console.log('App.js functions loaded:', typeof renderBooks, typeof renderBookDetail);
+        
+        mocha.setup('bdd');
+        const expect = chai.expect;
+        
+        // Simple test to verify setup
+        describe('Test Setup', function() {
+            it('should have Mocha and Chai working', function() {
+                expect(true).to.be.true;
+            });
+        });
+        
+        describe('E-Book Manager Frontend', function() {
+            const mockBooks = [
+                {
+                    ISBN: '0195153448',
+                    title: 'Classical Mythology',
+                    author: 'Mark P. O. Morford',
+                    year: 2002,
+                    cover: 'http://example.com/book1.jpg',
+                    gender: 'Education',
+                    price: '45.99',
+                    rating: '4.2'
+                },
+                {
+                    ISBN: '0002005018',
+                    title: 'Clara Callan',
+                    author: 'Richard Bruce Wright',
+                    year: 2001,
+                    cover: 'http://example.com/book2.jpg',
+                    gender: 'Fiction',
+                    price: '18.99',
+                    rating: '4.5'
+                }
+            ];
+
+            const mockBook = {
+                ISBN: '0195153448',
+                title: 'Classical Mythology',
+                author: 'Mark P. O. Morford',
+                year: 2002,
+                publisher: 'Oxford University Press',
+                cover: 'http://example.com/book1.jpg',
+                gender: 'Education',
+                price: '45.99',
+                rating: '4.2'
+            };
+
+            beforeEach(function() {
+                document.getElementById('book-list').innerHTML = '';
+                document.getElementById('book-detail').innerHTML = '';
+            });
+
+            describe('renderBooks', function() {
+                it('should render books with all required fields', function() {
+                    renderBooks(mockBooks);
+                    const bookCards = document.querySelectorAll('.book-card');
+                    expect(bookCards.length).to.equal(2);
+                    
+                    const firstCard = bookCards[0];
+                    expect(firstCard.querySelector('.book-title').textContent).to.equal('Classical Mythology');
+                    expect(firstCard.querySelector('.book-author').textContent).to.equal('Mark P. O. Morford');
+                    expect(firstCard.querySelector('.book-year').textContent).to.equal('2002');
+                    expect(firstCard.querySelector('.book-genre').textContent).to.equal('Education');
+                    expect(firstCard.querySelector('.book-price').textContent).to.equal('$45.99');
+                    expect(firstCard.querySelector('.book-rating').textContent).to.equal('★ 4.2');
+                });
+
+                it('should handle empty book list', function() {
+                    renderBooks([]);
+                    const bookCards = document.querySelectorAll('.book-card');
+                    expect(bookCards.length).to.equal(0);
+                });
+            });
+
+            describe('renderBookDetail', function() {
+                it('should render book detail with all fields', function() {
+                    renderBookDetail(mockBook);
+                    const detail = document.getElementById('book-detail');
+                    
+                    expect(detail.querySelector('h2').textContent).to.equal('Classical Mythology');
+                    expect(detail.innerHTML).to.include('Mark P. O. Morford');
+                    expect(detail.innerHTML).to.include('2002');
+                    expect(detail.innerHTML).to.include('Oxford University Press');
+                    expect(detail.innerHTML).to.include('0195153448');
+                    expect(detail.innerHTML).to.include('Education');
+                    expect(detail.innerHTML).to.include('$45.99');
+                    expect(detail.innerHTML).to.include('★ 4.2');
+                });
+            });
+
+            describe('showOverview and showDetail', function() {
+                it('should show overview and hide detail', function() {
+                    showOverview();
+                    expect(document.getElementById('book-list').classList.contains('hidden')).to.be.false;
+                    expect(document.getElementById('book-detail').classList.contains('hidden')).to.be.true;
+                    expect(document.getElementById('back-btn').classList.contains('hidden')).to.be.true;
+                });
+
+                it('should show detail and hide overview', function() {
+                    showDetail();
+                    expect(document.getElementById('book-list').classList.contains('hidden')).to.be.true;
+                    expect(document.getElementById('book-detail').classList.contains('hidden')).to.be.false;
+                    expect(document.getElementById('back-btn').classList.contains('hidden')).to.be.false;
+                });
+            });
+        });
+        
+        // Debug: Log that tests are about to run
+        console.log('About to run tests...');
+        document.getElementById('test-status').textContent = 'Running tests...';
+        
+        mocha.run(function(failures) {
+            console.log('Tests completed. Failures:', failures);
+            document.getElementById('test-status').textContent = 
+                failures === 0 ? 'All tests passed! ✅' : `Tests completed with ${failures} failures ❌`;
+        });
     </script>
 </body>
 </html>

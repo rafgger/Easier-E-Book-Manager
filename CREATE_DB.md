@@ -12,7 +12,7 @@ Make sure your CSV has a header row. Add the following as the first line if it's
 
 ```
 csv:
-isbn,title,author,year,publisher,img_m
+isbn,title,author,year,publisher,img_m,gender,price,rating
 ```
 Then save a new CSV file with only the first 20 entries (plus header). Call it Books_sample.csv.
 
@@ -29,8 +29,16 @@ CREATE TABLE public.books (
     author TEXT,
     year INT,
     publisher TEXT,
-    img_m TEXT
+    img_m TEXT,
+    gender VARCHAR(50),
+    price DECIMAL(10,2),
+    rating DECIMAL(3,1)
 );
+
+-- If the table already exists, add the new columns with:
+ALTER TABLE public.books ADD COLUMN IF NOT EXISTS gender VARCHAR(50);
+ALTER TABLE public.books ADD COLUMN IF NOT EXISTS price DECIMAL(10,2);
+ALTER TABLE public.books ADD COLUMN IF NOT EXISTS rating DECIMAL(3,1);
 ```
 
 We should see the imported entries.

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-Book Manager Frontend Tests (Self-Contained)</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            line-height: 1.6;
+        }
+        .test-container { margin-bottom: 20px; }
+        .hidden { display: none !important; }
+        
+        /* Test Results Styling */
+        .test-results {
+            border: 2px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .test-pass {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .test-fail {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 8px;
+            border-left: 4px solid #ddd;
+            background: white;
+        }
+        .test-item.pass {
+            border-left-color: #28a745;
+        }
+        .test-item.fail {
+            border-left-color: #dc3545;
+        }
+        h1 { color: #333; }
+        h2 { color: #555; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <h1>📚 E-Book Manager Frontend Tests</h1>
+    <p><strong>Status:</strong> <span id="test-status">Running tests...</span></p>
+    
+    <div class="test-results" id="results"></div>
+    
+    <!-- Test DOM Elements -->
+    <div id="test-container" style="display: none;">
+        <div id="book-list" class="grid"></div>
+        <div id="book-detail" class="hidden"></div>
+        <button id="back-btn" class="hidden">Back to list</button>
+    </div>
+
+    <script src="../app.js"></script>
+    
+    <script>
+        // Simple Test Framework (replaces Mocha/Chai)
+        class SimpleTest {
+            constructor() {
+                this.tests = [];
+                this.passed = 0;
+                this.failed = 0;
+                this.results = [];
+            }
+            
+            describe(name, fn) {
+                console.log(`\n=== ${name} ===`);
+                this.currentSuite = name;
+                fn();
+            }
+            
+            it(description, fn) {
+                try {
+                    fn();
+                    this.passed++;
+                    this.results.push({
+                        suite: this.currentSuite,
+                        test: description,
+                        status: 'pass',
+                        error: null
+                    });
+                    console.log(`✅ ${description}`);
+                } catch (error) {
+                    this.failed++;
+                    this.results.push({
+                        suite: this.currentSuite,
+                        test: description,
+                        status: 'fail',
+                        error: error.message
+                    });
+                    console.log(`❌ ${description}: ${error.message}`);
+                }
+            }
+            
+            expect(value) {
+                return {
+                    to: {
+                        equal: (expected) => {
+                            if (value !== expected) {
+                                throw new Error(`Expected ${expected}, got ${value}`);
+                            }
+                        },
+                        be: {
+                            true: () => {
+                                if (value !== true) {
+                                    throw new Error(`Expected true, got ${value}`);
+                                }
+                            },
+                            false: () => {
+                                if (value !== false) {
+                                    throw new Error(`Expected false, got ${value}`);
+                                }
+                            }
+                        },
+                        include: (substring) => {
+                            if (typeof value === 'string' && !value.includes(substring)) {
+                                throw new Error(`Expected "${value}" to include "${substring}"`);
+                            }
+                        }
+                    }
+                };
+            }
+            
+            beforeEach(fn) {
+                this.beforeEachFn = fn;
+            }
+            
+            runBeforeEach() {
+                if (this.beforeEachFn) {
+                    this.beforeEachFn();
+                }
+            }
+            
+            displayResults() {
+                const resultsDiv = document.getElementById('results');
+                const statusDiv = document.getElementById('test-status');
+                
+                let html = `<h2>Test Results Summary</h2>`;
+                
+                if (this.failed === 0) {
+                    statusDiv.innerHTML = `<span class="test-pass">✅ All ${this.passed} tests passed!</span>`;
+                    html += `<p class="test-pass">🎉 All ${this.passed} tests passed successfully!</p>`;
+                } else {
+                    statusDiv.innerHTML = `<span class="test-fail">❌ ${this.failed} failed, ${this.passed} passed</span>`;
+                    html += `<p class="test-fail">❌ ${this.failed} test(s) failed, ${this.passed} passed</p>`;
+                }
+                
+                let currentSuite = '';
+                this.results.forEach(result => {
+                    if (result.suite !== currentSuite) {
+                        html += `<h3>${result.suite}</h3>`;
+                        currentSuite = result.suite;
+                    }
+                    
+                    const statusIcon = result.status === 'pass' ? '✅' : '❌';
+                    const cssClass = result.status === 'pass' ? 'pass' : 'fail';
+                    
+                    html += `<div class="test-item ${cssClass}">
+                        ${statusIcon} ${result.test}
+                        ${result.error ? `<br><small>Error: ${result.error}</small>` : ''}
+                    </div>`;
+                });
+                
+                resultsDiv.innerHTML = html;
+            }
+        }
+        
+        // Initialize test framework
+        const test = new SimpleTest();
+        
+        // Test Data
+        const mockBooks = [
+            {
+                ISBN: '0195153448',
+                title: 'Classical Mythology',
+                author: 'Mark P. O. Morford',
+                year: 2002,
+                cover: 'http://example.com/book1.jpg',
+                gender: 'Education',
+                price: '45.99',
+                rating: '4.2'
+            },
+            {
+                ISBN: '0002005018',
+                title: 'Clara Callan',
+                author: 'Richard Bruce Wright',
+                year: 2001,
+                cover: 'http://example.com/book2.jpg',
+                gender: 'Fiction',
+                price: '18.99',
+                rating: '4.5'
+            }
+        ];
+
+        const mockBook = {
+            ISBN: '0195153448',
+            title: 'Classical Mythology',
+            author: 'Mark P. O. Morford',
+            year: 2002,
+            publisher: 'Oxford University Press',
+            cover: 'http://example.com/book1.jpg',
+            gender: 'Education',
+            price: '45.99',
+            rating: '4.2'
+        };
+        
+        // Run Tests
+        console.log('🧪 Starting E-Book Manager Frontend Tests...');
+        
+        test.describe('Setup Verification', function() {
+            test.it('should have app.js functions loaded', function() {
+                test.expect(typeof renderBooks).to.equal('function');
+                test.expect(typeof renderBookDetail).to.equal('function');
+                test.expect(typeof showOverview).to.equal('function');
+                test.expect(typeof showDetail).to.equal('function');
+            });
+        });
+        
+        test.describe('renderBooks Function', function() {
+            test.beforeEach(function() {
+                document.getElementById('book-list').innerHTML = '';
+                document.getElementById('book-detail').innerHTML = '';
+            });
+            
+            test.it('should render books with all required fields', function() {
+                test.runBeforeEach();
+                renderBooks(mockBooks);
+                const bookCards = document.querySelectorAll('.book-card');
+                test.expect(bookCards.length).to.equal(2);
+                
+                const firstCard = bookCards[0];
+                test.expect(firstCard.querySelector('.book-title').textContent).to.equal('Classical Mythology');
+                test.expect(firstCard.querySelector('.book-author').textContent).to.equal('Mark P. O. Morford');
+                test.expect(firstCard.querySelector('.book-year').textContent).to.equal('2002');
+                test.expect(firstCard.querySelector('.book-genre').textContent).to.equal('Education');
+                test.expect(firstCard.querySelector('.book-price').textContent).to.equal('$45.99');
+                test.expect(firstCard.querySelector('.book-rating').textContent).to.equal('★ 4.2');
+            });
+
+            test.it('should handle empty book list', function() {
+                test.runBeforeEach();
+                renderBooks([]);
+                const bookCards = document.querySelectorAll('.book-card');
+                test.expect(bookCards.length).to.equal(0);
+            });
+        });
+
+        test.describe('renderBookDetail Function', function() {
+            test.it('should render book detail with all fields', function() {
+                renderBookDetail(mockBook);
+                const detail = document.getElementById('book-detail');
+                
+                test.expect(detail.querySelector('h2').textContent).to.equal('Classical Mythology');
+                test.expect(detail.innerHTML).to.include('Mark P. O. Morford');
+                test.expect(detail.innerHTML).to.include('2002');
+                test.expect(detail.innerHTML).to.include('Oxford University Press');
+                test.expect(detail.innerHTML).to.include('0195153448');
+                test.expect(detail.innerHTML).to.include('Education');
+                test.expect(detail.innerHTML).to.include('$45.99');
+                test.expect(detail.innerHTML).to.include('★ 4.2');
+            });
+        });
+
+        test.describe('Navigation Functions', function() {
+            test.it('should show overview and hide detail', function() {
+                showOverview();
+                test.expect(document.getElementById('book-list').classList.contains('hidden')).to.be.false;
+                test.expect(document.getElementById('book-detail').classList.contains('hidden')).to.be.true;
+                test.expect(document.getElementById('back-btn').classList.contains('hidden')).to.be.true;
+            });
+
+            test.it('should show detail and hide overview', function() {
+                showDetail();
+                test.expect(document.getElementById('book-list').classList.contains('hidden')).to.be.true;
+                test.expect(document.getElementById('book-detail').classList.contains('hidden')).to.be.false;
+                test.expect(document.getElementById('back-btn').classList.contains('hidden')).to.be.false;
+            });
+        });
+        
+        // Display results
+        setTimeout(() => {
+            test.displayResults();
+        }, 100);
+    </script>
+</body>
+</html>

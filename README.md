@@ -1,13 +1,60 @@
-# E-Book Manager
+# 📚 E-Book Manager
 
-A minimalist web application to manage and view your e-book collection.
+A sleek, minimalist web application for managing and viewing an e-book collection with PostgreSQL backend and modern frontend.
 
-## Features
-- Overview page: Grid/list of e-books with cover, title, author, year (from PostgreSQL)
-- Detail page: Click a book to see all details (plus publisher, ISBN)
-- Print-friendly overview (dedicated CSS)
-- Responsive, clean UI
-- Frontend tests with Mocha
+## 🚀 Features
+
+- **📖 E-Book Overview**: Grid/list view of all e-books with cover images, titles, authors, publication years, genres, prices, and ratings
+- **🔍 Detailed View**: Comprehensive book information including publisher and ISBN
+- **🖨️ Print-Friendly**: Optimized print layout for catalog creation
+- **📱 Responsive Design**: Works seamlessly on desktop and mobile devices
+- **⚡ Fast API**: RESTful backend with PostgreSQL database
+- **🧪 Tested**: Both frontend and backend test suites included
+
+## 📊 Book Information Displayed
+
+Each e-book shows:
+- 📸 **Cover Image** (Image-URL-M)
+- 📚 **Title**
+- ✍️ **Author**
+- 📅 **Year of Publication**
+- 🏷️ **Genre** (Fiction, History, Science, etc.)
+- 💰 **Price** (USD)
+- ⭐ **Rating** (1-5 stars)
+- 🏢 **Publisher** (detailed view)
+- 🔢 **ISBN** (detailed view)
+
+## 🛠️ Technologies Used
+
+### Frontend
+- **HTML5** - Modern semantic markup
+- **CSS3** - Responsive design with Flexbox/Grid  
+- **JavaScript (ES6+)** - Vanilla JS for optimal performance
+
+### Backend
+- **FastAPI** - High-performance Python web framework
+- **PostgreSQL** - Robust relational database
+- **SQLAlchemy** - ORM for database operations
+- **Uvicorn** - ASGI server
+
+## ✨ New Features Added
+
+- **🏷️ Genre Classification**: Books categorized by genre (Fiction, History, Science, etc.)
+- **💰 Pricing Information**: Display book prices in USD
+- **⭐ Rating System**: Star ratings from 1-5 for each book
+- **🧪 Enhanced Testing**: Comprehensive test coverage for new fields
+- **🎨 Improved UI**: Color-coded genre, price, and rating display
+- **📱 Updated Responsive Design**: Better mobile experience with new fields
+
+## 🔧 Updated API Endpoints
+
+### GET /books
+Returns array of books with **all new fields**:
+- ISBN, title, author, year, cover
+- **NEW**: gender, price, rating
+
+### GET /books/{isbn}  
+Returns detailed book information including publisher and **all new fields**.
 
 ## Technologies
 - Frontend: HTML, CSS, JavaScript
@@ -40,12 +87,19 @@ http://localhost:8000/docs
 2. The app fetches data from `http://localhost:8000/books`.
 
 ### Testing
-- Open `frontend/test/index.html` in your browser to run Mocha tests.
+- Backend tests: Run `pytest test_main.py` in the `backend/` directory
+- Frontend tests: Open `frontend/test/index.html` in your browser to run Mocha tests
 
 ## Project Structure
 - `backend/`: FastAPI backend
+  - `main.py`: FastAPI application
+  - `test_main.py`: Backend tests
 - `frontend/`: HTML/CSS/JS frontend
 - `frontend/test/`: Mocha tests
+  - `app.test.js`: Frontend JavaScript tests
 
-## Author
-- [Your Name]
+---
+
+**Happy Reading!** 📚✨
+
+

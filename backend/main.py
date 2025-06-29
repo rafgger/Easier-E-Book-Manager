@@ -26,6 +26,9 @@ class Book(Base):
     Year_Of_Publication = Column("year", Integer)
     Publisher = Column("publisher",String)
     Image_URL_M = Column("img_m", String)
+    Gender = Column("gender", String)
+    Price = Column("price", String)
+    Rating = Column("rating", String)
 
 app = FastAPI()
 
@@ -48,7 +51,10 @@ async def get_books():
                 "title": b.Book_Title,
                 "author": b.Book_Author,
                 "year": b.Year_Of_Publication,
-                "cover": b.Image_URL_M
+                "cover": b.Image_URL_M,
+                "gender": b.Gender,
+                "price": b.Price,
+                "rating": b.Rating
             }
             for b in books
         ]
@@ -66,5 +72,12 @@ async def get_book(isbn: str):
             "author": book.Book_Author,
             "year": book.Year_Of_Publication,
             "publisher": book.Publisher,
-            "cover": book.Image_URL_M
+            "cover": book.Image_URL_M,
+            "gender": book.Gender,
+            "price": book.Price,
+            "rating": book.Rating
         }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -14,6 +14,9 @@ body { background: #fff !important; color: #000 !important; }
   margin-bottom: 1rem;
 }
 .book-cover { height: 180px !important; }
+.book-genre { color: #000 !important; font-weight: bold !important; }
+.book-price { color: #000 !important; font-weight: bold !important; }
+.book-rating { color: #000 !important; }
 
 @media print {
   html, body { width: 100%; }

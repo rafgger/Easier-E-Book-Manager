@@ -2,3 +2,5 @@ fastapi
 uvicorn
 asyncpg
 sqlalchemy
+pytest
+httpx

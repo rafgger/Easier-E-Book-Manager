@@ -24,6 +24,9 @@ function renderBooks(books) {
             <div class="book-title">${book.title}</div>
             <div class="book-author">${book.author}</div>
             <div class="book-year">${book.year}</div>
+            <div class="book-genre">${book.gender}</div>
+            <div class="book-price">$${book.price}</div>
+            <div class="book-rating">★ ${book.rating}</div>
         </div>
     `).join("");
 }
@@ -37,6 +40,9 @@ function renderBookDetail(book) {
         <div class="meta"><strong>Year:</strong> ${book.year}</div>
         <div class="meta"><strong>Publisher:</strong> ${book.publisher}</div>
         <div class="meta"><strong>ISBN:</strong> ${book.ISBN}</div>
+        <div class="meta"><strong>Genre:</strong> ${book.gender}</div>
+        <div class="meta"><strong>Price:</strong> $${book.price}</div>
+        <div class="meta"><strong>Rating:</strong> ★ ${book.rating}</div>
     `;
 }
 
@@ -77,6 +83,8 @@ if (bookList && bookDetail && backBtn) {
 // For testing purposes
 window.renderBooks = renderBooks;
 window.renderBookDetail = renderBookDetail;
+window.showOverview = showOverview;
+window.showDetail = showDetail;
 window.bookDetail = bookDetail;
 window.bookList = bookList;
 window.backBtn = backBtn;
