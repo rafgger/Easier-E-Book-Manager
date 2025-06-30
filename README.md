@@ -1,6 +1,6 @@
 # 📚 E-Book Manager
 
-A sleek, minimalist web application for managing and viewing an e-book collection with PostgreSQL backend and modern frontend.
+A sleek, minimalist web application for managing and viewing an e-book collection with PostgreSQL backend and modern frontend. This is a easier version of [Harder-E-Book-Manager](https://github.com/rafgger/Harder-E-Book-Manager).
 
 ## 🚀 Features
 
