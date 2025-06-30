@@ -1,6 +1,6 @@
-fastapi
-uvicorn
-asyncpg
-sqlalchemy
-pytest
-httpx
+fastapi==0.104.1
+uvicorn==0.24.0
+asyncpg==0.29.0
+sqlalchemy==2.0.23
+pytest==7.4.3
+httpx==0.25.2
