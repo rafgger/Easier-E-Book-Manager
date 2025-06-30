@@ -51,7 +51,7 @@ Each e-book shows:
 ### GET /books
 Returns array of books with **all new fields**:
 - ISBN, title, author, year, cover
-- **NEW**: gender, price, rating
+- **NEW**: genre, price, rating
 
 ### GET /books/{isbn}  
 Returns detailed book information including publisher and **all new fields**.
@@ -98,8 +98,8 @@ http://localhost:8000/docs
 - `frontend/test/`: Mocha tests
   - `app.test.js`: Frontend JavaScript tests
 
-Used adjusted data set:
-J. Schler, M. Koppel, S. Argamon and J. Pennebaker (2006). Effects of Age and Gender on Blogging in Proceedings of 2006 AAAI Spring Symposium on Computational Approaches for Analyzing Weblogs. URL: http://www.cs.biu.ac.il/~schlerj/schler_springsymp06.pdf
+Used adjusted data set: https://www.kaggle.com/datasets/rtatman/blog-authorship-corpus 
+J. Schler, M. Koppel, S. Argamon and J. Pennebaker (2006). Effects of Age and Genre on Blogging in Proceedings of 2006 AAAI Spring Symposium on Computational Approaches for Analyzing Weblogs. URL: http://www.cs.biu.ac.il/~schlerj/schler_springsymp06.pdf
 
 
 ---

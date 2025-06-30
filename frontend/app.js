@@ -24,9 +24,9 @@ function renderBooks(books) {
             <div class="book-title">${book.title}</div>
             <div class="book-author">${book.author}</div>
             <div class="book-year">${book.year}</div>
-            <div class="book-genre">${book.gender}</div>
-            <div class="book-price">$${book.price}</div>
-            <div class="book-rating">★ ${book.rating}</div>
+            <div class="book-genre">${book.genre}</div>
+            <div class="book-price">$${book.price.toFixed(2)}</div>
+            <div class="book-rating">★ ${book.rating.toFixed(1)}</div>
         </div>
     `).join("");
 }
@@ -40,9 +40,9 @@ function renderBookDetail(book) {
         <div class="meta"><strong>Year:</strong> ${book.year}</div>
         <div class="meta"><strong>Publisher:</strong> ${book.publisher}</div>
         <div class="meta"><strong>ISBN:</strong> ${book.ISBN}</div>
-        <div class="meta"><strong>Genre:</strong> ${book.gender}</div>
-        <div class="meta"><strong>Price:</strong> $${book.price}</div>
-        <div class="meta"><strong>Rating:</strong> ★ ${book.rating}</div>
+        <div class="meta"><strong>Genre:</strong> ${book.genre}</div>
+        <div class="meta"><strong>Price:</strong> $${book.price.toFixed(2)}</div>
+        <div class="meta"><strong>Rating:</strong> ★ ${book.rating.toFixed(1)}</div>
     `;
 }
 

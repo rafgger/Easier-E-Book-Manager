@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, Numeric
 from sqlalchemy.future import select
 import os
 
@@ -26,9 +26,9 @@ class Book(Base):
     Year_Of_Publication = Column("year", Integer)
     Publisher = Column("publisher",String)
     Image_URL_M = Column("img_m", String)
-    Gender = Column("gender", String)
-    Price = Column("price", String)
-    Rating = Column("rating", String)
+    Genre = Column("genre", String)
+    Price = Column("price", Numeric(10, 2))
+    Rating = Column("rating", Numeric(3, 1))
 
 app = FastAPI()
 
@@ -52,7 +52,7 @@ async def get_books():
                 "author": b.Book_Author,
                 "year": b.Year_Of_Publication,
                 "cover": b.Image_URL_M,
-                "gender": b.Gender,
+                "genre": b.Genre,
                 "price": b.Price,
                 "rating": b.Rating
             }
@@ -73,7 +73,7 @@ async def get_book(isbn: str):
             "year": book.Year_Of_Publication,
             "publisher": book.Publisher,
             "cover": book.Image_URL_M,
-            "gender": book.Gender,
+            "genre": book.Genre,
             "price": book.Price,
             "rating": book.Rating
         }
