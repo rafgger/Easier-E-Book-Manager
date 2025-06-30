@@ -2,6 +2,12 @@
 
 A sleek, minimalist web application for managing and viewing an e-book collection with PostgreSQL backend and modern frontend. This is a easier version of [Harder-E-Book-Manager](https://github.com/rafgger/Harder-E-Book-Manager).
 
+
+<a href="https://youtu.be/QnpynhklHaQ" target="_blank">
+  <img src="https://github.com/user-attachments/assets/2f7ad878-8c01-4cd3-ba44-7b854df35d3e" alt="Easier E-Book Manager" width="500"/>
+</a>
+
+
 ## 🚀 Features
 
 - **📖 E-Book Overview**: Grid/list view of all e-books with cover images, titles, authors, publication years, genres, prices, and ratings
